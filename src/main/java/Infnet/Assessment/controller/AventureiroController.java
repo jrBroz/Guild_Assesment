@@ -15,18 +15,9 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/Aventureiros")
+
 public class AventureiroController {
 
-    AventureiroService aventureiroService;
-
-    @PatchMapping("/{id}/{encerrar-vinculo}")
-public ResponseEntity<Void> encerrarVinculo(@PathVariable Long id) {
-
-    aventureiroService.encerrarVinculo(id);
-
-    return ResponseEntity.noContent().build(); // Vai me retornar 204 No content
-
-}
 
 
     

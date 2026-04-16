@@ -15,6 +15,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
@@ -29,21 +30,26 @@ public class ParticipacaoMissao {
     private Long id;
 
     @ManyToOne
+    @NotNull
     @JoinColumn(name = "missao_id", nullable = false)
     private Missao missao;
 
     @ManyToOne
+    @NotNull
     @JoinColumn(name = "aventureiro_id", nullable = false)
     private Aventureiro aventureiro;
 
     @Enumerated(EnumType.STRING)
-    private PapelAventureiroMissao papel; // Ex: TANQUE, CURANDEIRO, DANO
+    @NotNull
+    private PapelAventureiroMissao papel; 
 
     private Double recompensaOuro;
 
+    @NotNull
     private Boolean mvp;
 
     @Column(nullable = false, updatable = false)
+    @NotNull
     private LocalDateTime dataRegistro;
 
     @PrePersist

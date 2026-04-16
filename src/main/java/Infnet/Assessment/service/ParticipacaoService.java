@@ -2,7 +2,9 @@ package Infnet.Assessment.service;
 
 import org.springframework.stereotype.Service;
 
+import Infnet.Assessment.dto.ParticipacaoDTO.ParticipacaoRequestDTO;
 import Infnet.Assessment.enums.StatusMissao;
+import Infnet.Assessment.exceptions.BusinessException;
 import Infnet.Assessment.model.Aventureiro;
 import Infnet.Assessment.model.Missao;
 

@@ -48,7 +48,6 @@ public class Missao {
     private List<Aventureiro> participantes;
 
 
-    // --- ADICIONADO: O @PrePersist que estava faltando ---
     @PrePersist
     protected void onCreate() {
         // Registro automático da data de criação
@@ -60,7 +59,7 @@ public class Missao {
         }
     }
 
-    // --- OPCIONAL: Atualização automática da data de término ---
+
     @PreUpdate
     protected void onUpdate() {
         // Se o status mudar para CONCLUIDA ou CANCELADA, podemos carimbar a data de término

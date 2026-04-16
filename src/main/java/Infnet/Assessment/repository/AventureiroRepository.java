@@ -1,4 +1,3 @@
-// AventureiroRepository.java
 package Infnet.Assessment.repository;
 import Infnet.Assessment.model.Aventureiro;
 import org.springframework.data.jpa.repository.JpaRepository;
