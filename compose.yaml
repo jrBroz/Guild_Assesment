@@ -1,1 +1,13 @@
-services: {}
+services:
+  postgres:
+    image: leogloriainfnet/postgres-tp2-spring:2.0-win
+    platform: linux/arm64
+    container_name: postgres-tp2
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data

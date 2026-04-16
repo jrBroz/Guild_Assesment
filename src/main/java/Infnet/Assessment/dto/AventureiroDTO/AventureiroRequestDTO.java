@@ -19,6 +19,8 @@ public record AventureiroRequestDTO (
     Integer nivelAventureiro,
 
     @Valid
-    CompanheiroRequestDTO  companheiroRequestDTO
-    
+    CompanheiroRequestDTO  companheiroRequestDTO,
+
+    @NotNull Long organizacaoId,
+    @NotNull Long usuarioId    
 ){}
