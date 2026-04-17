@@ -25,8 +25,6 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/missoes")
 public class MissaoController {
-
-    @Autowired // Adicione isso!
     private MissaoService service;
 
     @PostMapping
