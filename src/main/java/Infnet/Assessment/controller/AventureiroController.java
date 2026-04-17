@@ -18,9 +18,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/aventureiros")
-public class AventureiroController {
-
-    @Autowired // <-- 1ª MUDANÇA: Adicione isso para o Spring conectar a Service
+public class AventureiroController { 
     private AventureiroService service;
 
     @PostMapping
@@ -36,7 +34,6 @@ public class AventureiroController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AventureiroResponseDTO> buscarPorId(@PathVariable Long id) {
-        // Use o seu método retornarAventureiro que já faz o findById
         Aventureiro entidade = service.retornarAventureiro(id);
         
         return ResponseEntity.ok(converterParaDTO(entidade));
