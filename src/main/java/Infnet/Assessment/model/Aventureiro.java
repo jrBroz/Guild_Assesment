@@ -62,10 +62,9 @@ public class Aventureiro {
         if (this.ativo == null) this.ativo = true;
     }
 
-    // --- ADICIONE ISSO AQUI ---
+    
     @PreUpdate
     protected void onUpdate() {
-        // Toda vez que qualquer campo mudar, o JPA chama este método
         this.dataAtualizacao = LocalDateTime.now();
     }
 }

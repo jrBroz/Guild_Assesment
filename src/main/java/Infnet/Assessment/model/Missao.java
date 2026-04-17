@@ -23,6 +23,10 @@ public class Missao {
     @Column(nullable = false, length = 150)
     private String titulo;
 
+     @Column(nullable = false, length = 150)
+    private String descricao;
+
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private NivelPerigoMissao nivelPerigoMissao;
@@ -45,7 +49,10 @@ public class Missao {
         joinColumns = @JoinColumn(name = "missao_id"),
         inverseJoinColumns = @JoinColumn(name = "aventureiro_id")
     )
-    private List<Aventureiro> participantes;
+    @OneToMany(mappedBy = "missao") 
+    private List<ParticipacaoMissao> participacoes;
+
+
 
 
     @PrePersist
@@ -67,5 +74,9 @@ public class Missao {
             && this.dataTermino == null) {
             this.dataTermino = LocalDateTime.now();
         }
+    }
+
+    public List<ParticipacaoMissao> getParticipacoes() {
+        return participacoes;
     }
 }
