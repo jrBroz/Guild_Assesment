@@ -53,7 +53,6 @@ public class MissaoService {
             LocalDateTime fim,
             Pageable pageable) {
         
-        // Aqui chamamos aquele método que configuramos no Repository anteriormente
         return missaoRepo.findByStatusAndNivelPerigoMissaoAndDataCriacaoBetween(
                 status, nivel, inicio, fim, pageable);
     }
