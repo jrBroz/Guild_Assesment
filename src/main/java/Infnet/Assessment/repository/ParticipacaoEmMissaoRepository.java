@@ -1,6 +1,6 @@
 package Infnet.Assessment.repository;
 
-import Infnet.Assessment.model.ParticipacaoMissao;
+import Infnet.Assessment.model.ParticipacaoEmMissao;
 import Infnet.Assessment.enums.StatusMissao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -8,19 +8,19 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface ParticipacaoMissaoRepository extends JpaRepository<ParticipacaoMissao, Long> {
+public interface ParticipacaoEmMissaoRepository extends JpaRepository<ParticipacaoEmMissao, Long> {
 
     // 1. Busca a última missão de um aventureiro específico (para o perfil completo)
     @Query("SELECT p FROM ParticipacaoMissao p WHERE p.aventureiro.id = :id ORDER BY p.dataRegistro DESC LIMIT 1")
-    ParticipacaoMissao findUltimaParticipacao(@Param("id") Long id);
+    ParticipacaoEmMissao findUltimaParticipacao(@Param("id") Long id);
 
     // 2. Conta quantas participações um aventureiro tem
     Long countByAventureiroId(Long id);
 
     // 3. RELATÓRIO: Ranking de Aventureiros (Com base em participações, ouro e destaques)
-    // Usamos Object[] para capturar os resultados agregados (Soma e Contagem)
     @Query("""
         SELECT p.aventureiro.nome, 
                COUNT(p.id), 
@@ -49,4 +49,18 @@ public interface ParticipacaoMissaoRepository extends JpaRepository<Participacao
     """)
     List<Object[]> buscarMetricasMissoes(@Param("inicio") LocalDateTime inicio, 
                                          @Param("fim") LocalDateTime fim);
-}
+
+
+
+
+
+
+
+
+Long countByAventureiro_Id(Long id);
+    Optional<ParticipacaoEmMissao> findFirstByAventureiro_IdOrderByMissao_CreatedAtDesc(Long id);
+
+
+                                        }
+
+                                        

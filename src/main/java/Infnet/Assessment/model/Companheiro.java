@@ -10,27 +10,21 @@ import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-// Validação de Restrição
 
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Companheiro {
-    
-@Id
-    private Long id; // Este ID será o mesmo do Aventureiro
 
+    @Id
+    private Long id; 
     @OneToOne
-    @MapsId // Diz ao JPA que o ID desta entidade vem da relação abaixo
+    @MapsId 
     @JoinColumn(name = "aventureiro_id")
     private Aventureiro aventureiro;
 

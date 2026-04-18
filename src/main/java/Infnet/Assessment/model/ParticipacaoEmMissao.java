@@ -23,7 +23,7 @@ import lombok.Data;
 @Table(uniqueConstraints = {
     @UniqueConstraint(columnNames = {"missao_id", "aventureiro_id"})
 })
-public class ParticipacaoMissao {
+public class ParticipacaoEmMissao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,11 +1,14 @@
 package Infnet.Assessment.model;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+
 import Infnet.Assessment.enums.ClasseAventureiro;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,16 +29,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Aventureiro {
     
+  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "organizacao_id", nullable = false) // Regra: Não existe sem Org
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "organizacao_id", nullable = false)
     private Organizacao organizacao;
 
-    @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false) // Regra: Deve referenciar um Usuário
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "usuario_cadastro_id", nullable = false)
     private Usuario usuarioResponsavel;
 
     @Column(nullable = false, length = 120)
@@ -49,22 +54,22 @@ public class Aventureiro {
     private Integer nivel;
 
     @Column(nullable = false)
-    private Boolean ativo;
+    private Boolean ativo = true;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime dataCriacao;
+    @Column(name = "data_criacao", nullable = false, updatable = false)
+    private OffsetDateTime createdAt;
 
-    private LocalDateTime dataAtualizacao; // Campo para a regra de data de atualização
+    @Column(name = "data_atualizacao", nullable = false)
+    private OffsetDateTime updatedAt;
 
     @PrePersist
     protected void onCreate() {
-        this.dataCriacao = LocalDateTime.now();
-        if (this.ativo == null) this.ativo = true;
+        this.createdAt = OffsetDateTime.now();
+        this.updatedAt = OffsetDateTime.now();
     }
 
-    
     @PreUpdate
     protected void onUpdate() {
-        this.dataAtualizacao = LocalDateTime.now();
+        this.updatedAt = OffsetDateTime.now();
     }
 }

@@ -1,13 +1,10 @@
 package Infnet.Assessment.dto.AventureiroDTO;
-
 import Infnet.Assessment.enums.ClasseAventureiro;
 
-public record AventureiroResumoDTO(
-
+public record AventureiroResumido(
     Long id,
     String nome,
     ClasseAventureiro classe,
-    Integer nivel
-
-
-){}
+    Integer nivel,
+    Boolean ativo
+) {}

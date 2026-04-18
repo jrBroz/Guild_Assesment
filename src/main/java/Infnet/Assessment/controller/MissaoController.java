@@ -1,7 +1,6 @@
 package Infnet.Assessment.controller;
 import java.time.LocalDateTime;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import Infnet.Assessment.dto.AventureiroDTO.AventureiroResumoDTO;
+import Infnet.Assessment.dto.AventureiroDTO.AventureiroResumidoDTO;
 import Infnet.Assessment.dto.MissaoDTO.MissaoRequestDTO;
 import Infnet.Assessment.dto.MissaoDTO.MissaoResponseDTO;
 import Infnet.Assessment.enums.NivelPerigoMissao;
@@ -47,8 +46,8 @@ public class MissaoController {
 
 private MissaoResponseDTO converterParaDTO(Missao m) {
     // 1. Transforma a lista de participacoes em DTOs de 4 campos
-    List<AventureiroResumoDTO> participantesDTO = m.getParticipacoes().stream()
-        .map(p -> new AventureiroResumoDTO(
+    List<AventureiroResumidoDTO> participantesDTO = m.getParticipacoes().stream()
+        .map(p -> new AventureiroResumidoDTO(
             p.getAventureiro().getId(),         // id
             p.getAventureiro().getNome(),       // nome
             p.getAventureiro().getClasse(),     // classe (NOVO)

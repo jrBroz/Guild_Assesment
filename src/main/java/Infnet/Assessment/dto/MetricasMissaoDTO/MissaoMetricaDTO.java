@@ -8,4 +8,4 @@ public record MissaoMetricaDTO(
     NivelPerigoMissao nivelPerigo,
     Long qtdParticipantes,
     Double totalRecompensas
-) {
+) {}

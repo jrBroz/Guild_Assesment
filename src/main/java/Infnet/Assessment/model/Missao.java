@@ -50,7 +50,7 @@ public class Missao {
         inverseJoinColumns = @JoinColumn(name = "aventureiro_id")
     )
     @OneToMany(mappedBy = "missao") 
-    private List<ParticipacaoMissao> participacoes;
+    private List<ParticipacaoEmMissao> participacoes;
 
 
 
@@ -76,7 +76,7 @@ public class Missao {
         }
     }
 
-    public List<ParticipacaoMissao> getParticipacoes() {
+    public List<ParticipacaoEmMissao> getParticipacoes() {
         return participacoes;
     }
 }

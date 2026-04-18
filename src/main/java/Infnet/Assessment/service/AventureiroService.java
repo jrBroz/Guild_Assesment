@@ -1,75 +1,129 @@
 package Infnet.Assessment.service;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import Infnet.Assessment.dto.AventureiroDTO.AventureiroRequestDTO;
-import Infnet.Assessment.dto.AventureiroDTO.AventureiroUpdateDTO;
+
+import Infnet.Assessment.dto.AventureiroDTO.*;
+import Infnet.Assessment.dto.RankingDTO.RankingDTO;
+import Infnet.Assessment.dto.CompanheiroDTO.CompanheiroCriacaoDTO;
 import Infnet.Assessment.exceptions.BusinessException;
-import Infnet.Assessment.model.Aventureiro;
-import Infnet.Assessment.model.Organizacao;
-import Infnet.Assessment.model.Usuario;
-import Infnet.Assessment.repository.AventureiroRepository;
-import Infnet.Assessment.repository.OrganizacaoRepository;
-import Infnet.Assessment.repository.UsuarioRepository;
-import jakarta.transaction.Transactional;
+import Infnet.Assessment.exceptions.EntidadeNaoLocalizadaException;
+import Infnet.Assessment.model.*;
+import Infnet.Assessment.repository.*;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.*;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 @Service
+@RequiredArgsConstructor
 public class AventureiroService {
- 
-    @Autowired private AventureiroRepository aventureiroRepo;
-    @Autowired private OrganizacaoRepository orgRepo;
-    @Autowired private UsuarioRepository usuarioRepo;
+
+    private final AventureiroRepository aventureiroRepo;
+    private final CompanheiroRepository companheiroRepo;
+    private final OrganizacaoRepository orgRepo;
+    private final UsuarioRepository usuarioRepo;
+    private final ParticipacaoEmMissaoRepository participacaoRepo;
+
+    // --- CONSULTAS ---
+
+    @Transactional(readOnly = true)
+    public Page<AventureiroResumido> listarComFiltros(Boolean ativo, String classe, Integer nivelMin, Pageable pageable) {
+        return aventureiroRepo.findByAtivoAndClasseAndNivelGreaterThanEqual(ativo, classe, nivelMin, pageable)
+                .map(a -> new AventureiroResumido(a.getId(), a.getNome(), a.getClasse(), a.getNivel(), a.getAtivo()));
+    }
+
+    @Transactional(readOnly = true)
+    public Page<AventureiroResumido> buscarPorNome(String nome, Pageable pageable) {
+        return aventureiroRepo.findByNomeContainingIgnoreCase(nome, pageable)
+                .map(a -> new AventureiroResumido(a.getId(), a.getNome(), a.getClasse(), a.getNivel(), a.getAtivo()));
+    }
+
+    @Transactional(readOnly = true)
+    public AventureiroResponseDTO obterPerfilCompleto(Long id) {
+        Aventureiro aventureiro = aventureiroRepo.findById(id)
+                .orElseThrow(() -> new EntidadeNaoLocalizadaException("Aventureiro não encontrado"));
+
+        // Busca a participação mais recente para extrair a última missão
+        Missao ultimaMissao = participacaoRepo
+                .findFirstByAventureiro_IdOrderByMissao_CreatedAtDesc(id)
+                .map(ParticipacaoEmMissao::getMissao)
+                .orElse(null);
+
+        Long totalParticipacoes = participacaoRepo.countByAventureiro_Id(id);
+        
+        // No seu CompanheiroRepository, o método deve ser findByAventureiroId
+        Companheiro companheiro = companheiroRepo.findByAventureiroId(id).orElse(null);
+
+        return new AventureiroResponseDTO(
+                aventureiro.getId(),
+                aventureiro.getNome(),
+                aventureiro.getClasse(),
+                aventureiro.getNivel(),
+                aventureiro.getAtivo(),
+                aventureiro.getCreatedAt(),
+                totalParticipacoes,
+                ultimaMissao,
+                companheiro
+        );
+    }
+
+    // --- CRUD E STATUS ---
 
     @Transactional
-    public Aventureiro criarAventureiro(AventureiroRequestDTO dto) {
+    public AventureiroResponseDTO criar(AventureiroRequestDTO dto) {
         Organizacao org = orgRepo.findById(dto.organizacaoId())
-            .orElseThrow(() -> new BusinessException("Organização não encontrada."));
-            
+                .orElseThrow(() -> new BusinessException("Organização não encontrada"));
         Usuario user = usuarioRepo.findById(dto.usuarioId())
-            .orElseThrow(() -> new BusinessException("Usuário não encontrado."));
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado"));
 
         Aventureiro novo = new Aventureiro();
+        novo.setOrganizacao(org);
+        novo.setUsuarioResponsavel(user);
         novo.setNome(dto.nomeAventureiro());
         novo.setClasse(dto.classeAventureiro());
         novo.setNivel(dto.nivelAventureiro());
-        novo.setOrganizacao(org);
-        novo.setUsuarioResponsavel(user);
-        
-        return aventureiroRepo.save(novo);
-    }
+        novo.setAtivo(true);
 
-    public Aventureiro retornarAventureiro(Long id) {
-        return aventureiroRepo.findById(id)
-            .orElseThrow(() -> new BusinessException("Aventureiro não encontrado."));
+        Aventureiro salvo = aventureiroRepo.save(novo);
+        return obterPerfilCompleto(salvo.getId());
     }
-
-    @Transactional
-    public Aventureiro alterarAventureiro(Long id, AventureiroUpdateDTO dto) {
-        Aventureiro existente = retornarAventureiro(id);
-        
-        existente.setNome(dto.nome());
-        existente.setClasse(dto.classe());
-        existente.setNivel(dto.nivel());
-        
-        return aventureiroRepo.save(existente);
-    }
-
-    @Transactional
-    public void deletarAventureiro(Long id) {
-        Aventureiro existente = retornarAventureiro(id);
-        aventureiroRepo.delete(existente);
-    }    
 
     @Transactional
     public void encerrarVinculo(Long id) {
-        Aventureiro existente = retornarAventureiro(id);
-        existente.setAtivo(false); // Inativa o aventureiro
-        aventureiroRepo.save(existente);
-    } 
+        Aventureiro aventureiro = aventureiroRepo.findById(id)
+                .orElseThrow(() -> new EntidadeNaoLocalizadaException("Aventureiro não encontrado"));
+        aventureiro.setAtivo(false);
+        aventureiroRepo.save(aventureiro);
+    }
+
+    // --- REGRAS DE NEGÓCIO E RELATÓRIOS ---
 
     @Transactional
-    public void recrutarNovamente(Long id) {
-        Aventureiro existente = retornarAventureiro(id);
-        existente.setAtivo(true); // Reativa o aventureiro
-        aventureiroRepo.save(existente);
+    public AventureiroResponseDTO atribuirCompanheiro(Long idAventureiro, CompanheiroCriacaoDTO dto) {
+        Aventureiro aventureiro = aventureiroRepo.findById(idAventureiro)
+                .orElseThrow(() -> new EntidadeNaoLocalizadaException("Aventureiro não encontrado"));
+
+        // Remove o antigo se existir
+        companheiroRepo.findByAventureiroId(idAventureiro).ifPresent(c -> {
+            companheiroRepo.delete(c);
+            companheiroRepo.flush();
+        });
+
+        Companheiro novoCompanheiro = new Companheiro();
+        // Usando os setters exatos do seu model Companheiro:
+        novoCompanheiro.setAventureiro(aventureiro); 
+        novoCompanheiro.setNome(dto.nome().trim());
+        novoCompanheiro.setEspecie(dto.especie()); 
+        novoCompanheiro.setNivelLealdade(dto.lealdade()); 
+
+        companheiroRepo.save(novoCompanheiro);
+        return obterPerfilCompleto(idAventureiro);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<RankingDTO> gerarRanking(LocalDateTime inicio, LocalDateTime fim, Pageable pageable) {
+        LocalDateTime dataDe = (inicio != null) ? inicio : LocalDateTime.now().minusYears(10);
+        LocalDateTime dataAte = (fim != null) ? fim : LocalDateTime.now();
+        return aventureiroRepo.obterRanking(dataDe, dataAte, pageable);
     }
 }

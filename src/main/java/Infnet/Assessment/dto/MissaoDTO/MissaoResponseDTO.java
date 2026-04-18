@@ -1,6 +1,6 @@
 package Infnet.Assessment.dto.MissaoDTO;
 
-import Infnet.Assessment.dto.AventureiroDTO.AventureiroResumoDTO;
+import Infnet.Assessment.dto.AventureiroDTO.AventureiroResumido;
 import Infnet.Assessment.enums.NivelPerigoMissao;
 import Infnet.Assessment.enums.StatusMissao;
 import java.time.LocalDateTime;
@@ -12,5 +12,5 @@ Long id,
     String titulo,
     String nomeOrganizacao, 
     StatusMissao status,
-    List<AventureiroResumoDTO> participantes 
+    List<AventureiroResumido> participantes 
 ) {}

@@ -23,10 +23,8 @@ public class AventureiroController {
 
     @PostMapping
     public ResponseEntity<AventureiroResponseDTO> criar(@Valid @RequestBody AventureiroRequestDTO dto) {
-        // 2ª MUDANÇA: Use o nome EXATO que está na Service: criarAventureiro
         Aventureiro entidade = service.criarAventureiro(dto);
         
-        // 3ª MUDANÇA: Transforme a Entidade em DTO antes de devolver
         AventureiroResponseDTO response = converterParaDTO(entidade);
         
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -48,6 +46,7 @@ public class AventureiroController {
         aventureiro.getNivel(),            // nivelAventureiro
         aventureiro.getAtivo(),            // ativo
         null                               //  vo dxa null pr encquantro
+,       null, null, null
     );
 }
 }
