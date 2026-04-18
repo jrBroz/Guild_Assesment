@@ -1,7 +1,6 @@
 package Infnet.Assessment.model;
 import java.util.List;
 import org.springframework.data.annotation.Id;
-import Infnet.Assessment.enums.PapelAventureiroMissao;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -42,5 +41,5 @@ public class Usuario {
         joinColumns = @JoinColumn(name = "usuario_id"),
         inverseJoinColumns = @JoinColumn(name = "papel_id")
     )
-    private List<Papel> papeis;
+    private List<Role> papeis;
 }

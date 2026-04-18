@@ -8,10 +8,11 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "permissao", schema = "audit")
-public class Permissao {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Table(name = "permissions", schema = "audit")
+public class Permission {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nome; 
+    
+    private String code; // No caso seria nome? preciso avaliar melhor no diagrama
+    private String descricao;
 }

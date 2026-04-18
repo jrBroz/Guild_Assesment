@@ -10,8 +10,9 @@ import jakarta.persistence.*;
 
 @Data
 @Entity
-@Table(name = "organizacoes")
+@Table(name = "organizacoes", schema = "audit")
 public class Organizacao {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,15 +21,11 @@ public class Organizacao {
     @Column(nullable = false, unique = true, length = 100)
     private String nome;
 
-    // OPCIONAL: Descrição da organização (ex: Guilda de Magos, Exército Real)
     private String descricao;
 
-    // Relacionamento Inverso (Opcional, mas ajuda muito nas buscas)
-    // Uma organização tem muitos aventureiros
     @OneToMany(mappedBy = "organizacao")
     private List<Aventureiro> aventureiros;
 
-    // Uma organização tem muitas missões
     @OneToMany(mappedBy = "organizacao")
     private List<Missao> missoes;
 }
