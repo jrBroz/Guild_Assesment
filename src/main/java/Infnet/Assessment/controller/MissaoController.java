@@ -22,10 +22,10 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/missoes")
-@RequiredArgsConstructor // (Injeta o Service)
+@RequiredArgsConstructor 
 public class MissaoController {
 
-    private final MissaoService service; // TEM QUE TER 'final' AQUI AGORA
+    private final MissaoService service;
 
     @PostMapping
     public ResponseEntity<MissaoResponseDTO> criar(@Valid @RequestBody MissaoRequestDTO dto) {

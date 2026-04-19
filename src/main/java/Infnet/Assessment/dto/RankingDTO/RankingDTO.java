@@ -1,8 +1,11 @@
 package Infnet.Assessment.dto.RankingDTO;
 
+import java.math.BigDecimal;
+
 public record RankingDTO(
+    Long id,
     String nome,
     Long totalParticipacoes,
-    Double somaRecompensas,
+    BigDecimal somaRecompensas,
     Long quantidadeDestaques
 ) {}

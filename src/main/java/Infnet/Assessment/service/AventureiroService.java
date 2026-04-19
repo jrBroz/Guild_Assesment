@@ -96,6 +96,8 @@ public class AventureiroService {
         aventureiroRepo.save(aventureiro);
     }
 
+
+    
     // --- REGRAS DE NEGÓCIO E RELATÓRIOS ---
 
     @Transactional
@@ -110,8 +112,8 @@ public class AventureiroService {
         });
 
         Companheiro novoCompanheiro = new Companheiro();
-        // Usando os setters exatos do seu model Companheiro:
-        novoCompanheiro.setAventureiro(aventureiro); 
+        // Usando os setters exatos do model Companheiro:
+        novoCompanheiro.setId(aventureiro.getId()); 
         novoCompanheiro.setNome(dto.nome().trim());
         novoCompanheiro.setEspecie(dto.especie()); 
         novoCompanheiro.setNivelLealdade(dto.lealdade()); 

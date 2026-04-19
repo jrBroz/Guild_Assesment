@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 public record MissaoRequestDTO(
     
-    // Recebemos apenas o ID da organização, não o objeto inteiro
+    // receber apenas o ID da organização, não o objeto inteiro
     @NotNull(message = "A organização responsável é obrigatória.")
     Long organizacaoId,
 

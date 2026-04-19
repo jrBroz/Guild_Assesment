@@ -21,7 +21,7 @@ public class Organizacao {
     @Column(nullable = false, unique = true, length = 100)
     private String nome;
 
-    private String descricao;
+    // Ver aq depois
 
     @OneToMany(mappedBy = "organizacao")
     private List<Aventureiro> aventureiros;

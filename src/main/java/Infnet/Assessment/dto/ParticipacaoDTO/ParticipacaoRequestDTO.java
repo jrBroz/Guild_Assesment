@@ -1,5 +1,7 @@
 package Infnet.Assessment.dto.ParticipacaoDTO;
 
+import java.math.BigDecimal;
+
 import Infnet.Assessment.enums.PapelAventureiroMissao;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -15,7 +17,7 @@ public record ParticipacaoRequestDTO(
     PapelAventureiroMissao papel,
 
     @Min(value = 0, message = "A recompensa não pode ser negativa")
-    Double recompensaOuro,
+    BigDecimal recompensaOuro,
 
     @NotNull(message = "É necessário definir se é destaque (MVP)")
     Boolean mvp

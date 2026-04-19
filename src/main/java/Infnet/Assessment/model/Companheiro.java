@@ -5,28 +5,17 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.Table;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
+@Table(name = "companheiro", schema = "operacoes")
 public class Companheiro {
 
     @Id
-    private Long id; 
-    @OneToOne
-    @MapsId 
-    @JoinColumn(name = "aventureiro_id")
-    private Aventureiro aventureiro;
+    @Column(name = "aventureiro_id")
+    private Long id;
 
     @Column(nullable = false, length = 120)
     private String nome;
@@ -36,7 +25,6 @@ public class Companheiro {
     private EspecieCompanheiro especie;
 
     @Column(nullable = false)
-    @Min(0)
-    @Max(100)
+
     private Integer nivelLealdade;
 }

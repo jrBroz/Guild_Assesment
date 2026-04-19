@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/aventureiros")
-@RequiredArgsConstructor // 1. Adicionado p injetar o service automaticamente
+@RequiredArgsConstructor 
 public class AventureiroController {
 
     private final AventureiroService service; // 2. Deve ser 'final' para o RequiredArgsConstructor funcionar

@@ -1,5 +1,6 @@
 package Infnet.Assessment.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import Infnet.Assessment.enums.PapelAventureiroMissao;
@@ -14,15 +15,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 @Entity
-@Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"missao_id", "aventureiro_id"})
-})
+@Table(name = "participacao_missao", schema = "operacoes")
 public class ParticipacaoEmMissao {
 
     @Id
@@ -41,14 +40,18 @@ public class ParticipacaoEmMissao {
 
     @Enumerated(EnumType.STRING)
     @NotNull
+    @Column(name = "papel", nullable = false)
     private PapelAventureiroMissao papel; 
 
-    private Double recompensaOuro;
+    @Column(name = "recompensa_ouro")
+    private BigDecimal recompensaOuro;
+
 
     @NotNull
+    @Column(name = "destaque", nullable = false)
     private Boolean mvp;
 
-    @Column(nullable = false, updatable = false)
+    @Column(name = "data_registro", nullable = false, updatable = false)
     @NotNull
     private LocalDateTime dataRegistro;
 

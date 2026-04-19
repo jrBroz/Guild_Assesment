@@ -1,8 +1,6 @@
 package Infnet.Assessment.model;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import Infnet.Assessment.enums.ClasseAventureiro;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

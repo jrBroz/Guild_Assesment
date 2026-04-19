@@ -23,7 +23,7 @@ public class UsuarioService {
     // REQUISITO: Listar usuários com suas roles
     public List<Usuario> listarTodos() {
         // Como o relacionamento ManyToMany está mapeado, 
-        // o JPA já traz as roles automaticamente se configurado corretamente.
+        // o JPA já traz as roles automaticamente se configurado corretamente
         return usuarioRepo.findAll();
     }
 

@@ -32,7 +32,7 @@ public class ParticipacaoEmMissaoService {
         participacao.setAventureiro(av);
         participacao.setMissao(mi);
         
-        // NOMES CORRIGIDOS PARA O SEU MODEL:
+        // NOMES CORRIGIDOS PARA O MODEL:
         participacao.setPapel(dto.papel());
         participacao.setRecompensaOuro(dto.recompensaOuro());
         participacao.setMvp(dto.mvp() != null ? dto.mvp() : false);

@@ -1,21 +1,35 @@
 package Infnet.Assessment.model;
 import java.time.LocalDateTime;
 import java.util.List;
-import Infnet.Assessment.entity.BaseEntity;
 import Infnet.Assessment.enums.NivelPerigoMissao;
 import Infnet.Assessment.enums.StatusMissao;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
 @Entity
-public class Missao extends BaseEntity{
+@Table(name = "missao", schema = "operacoes")
+public class Missao{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "organizacao_id", nullable = false)
     private Organizacao organizacao;
 
@@ -25,20 +39,22 @@ public class Missao extends BaseEntity{
      @Column(nullable = false, length = 150)
     private String descricao;
 
-
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name="nivel_perigo",nullable = false)
     private NivelPerigoMissao nivelPerigoMissao;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StatusMissao status;
 
-    @Column(nullable = false, updatable = false)
+    @Column(name = "data_criacao", nullable = false, updatable = false)
     private LocalDateTime dataCriacao;
 
+    @Column(name = "data_inicio")
     private LocalDateTime dataInicio;
-    private LocalDateTime dataTermino;
+
+    @Column(name = "data_fim")
+    private LocalDateTime dataFim;
 
     // --- ADICIONADO: Lista de participantes ---
     // Uma missão tem muitos aventureiros e um aventureiro pode estar em várias missões
@@ -48,11 +64,8 @@ public class Missao extends BaseEntity{
         joinColumns = @JoinColumn(name = "missao_id"),
         inverseJoinColumns = @JoinColumn(name = "aventureiro_id")
     )
-    @OneToMany(mappedBy = "missao") 
+
     private List<ParticipacaoEmMissao> participacoes;
-
-
-
 
     @PrePersist
     protected void onCreate() {
@@ -70,8 +83,8 @@ public class Missao extends BaseEntity{
     protected void onUpdate() {
         // Se o status mudar para CONCLUIDA ou CANCELADA, podemos carimbar a data de término
         if ((this.status == StatusMissao.CONCLUIDA || this.status == StatusMissao.CANCELADA) 
-            && this.dataTermino == null) {
-            this.dataTermino = LocalDateTime.now();
+            && this.dataFim == null) {
+            this.dataFim = LocalDateTime.now();
         }
     }
 
