@@ -1,14 +1,11 @@
 package Infnet.Assessment.dto.MissaoDTO;
-
 import Infnet.Assessment.dto.AventureiroDTO.AventureiroResumido;
-import Infnet.Assessment.enums.NivelPerigoMissao;
 import Infnet.Assessment.enums.StatusMissao;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public record MissaoResponseDTO(
     
-Long id,
+    Long id,
     String titulo,
     String nomeOrganizacao, 
     StatusMissao status,

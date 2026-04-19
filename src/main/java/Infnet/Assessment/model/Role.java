@@ -27,7 +27,7 @@ public class Role {
 
     @ManyToMany
     @JoinTable(
-        name = "roles_permissions", // (Obs: confirme se o nome da tabela de junção é esse no DB)
+        name = "roles_permissions", // vo precisa confirmar se o nome da tabela de junção é esse no DB)
         schema = "audit",
         joinColumns = @JoinColumn(name = "role_id"),
         inverseJoinColumns = @JoinColumn(name = "permission_id")

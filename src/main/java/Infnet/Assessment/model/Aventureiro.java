@@ -1,7 +1,6 @@
 package Infnet.Assessment.model;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
-
 import Infnet.Assessment.enums.ClasseAventureiro;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -27,7 +26,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Aventureiro {
+
+public class Aventureiro{
     
   
     @Id

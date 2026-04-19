@@ -1,8 +1,7 @@
 package Infnet.Assessment.model;
-
 import java.time.LocalDateTime;
 import java.util.List;
-
+import Infnet.Assessment.entity.BaseEntity;
 import Infnet.Assessment.enums.NivelPerigoMissao;
 import Infnet.Assessment.enums.StatusMissao;
 import jakarta.persistence.*;
@@ -10,7 +9,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Missao {
+public class Missao extends BaseEntity{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
