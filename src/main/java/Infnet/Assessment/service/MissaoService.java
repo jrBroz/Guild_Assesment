@@ -32,7 +32,6 @@ public class MissaoService {
 
         Missao nova = new Missao();
         nova.setTitulo(dto.titulo());
-        nova.setDescricao(dto.descricao());
         nova.setNivelPerigoMissao(dto.nivelPerigo());
         nova.setOrganizacao(org);
         nova.setStatus(StatusMissao.PLANEJADA); // Toda missão começa como planejada

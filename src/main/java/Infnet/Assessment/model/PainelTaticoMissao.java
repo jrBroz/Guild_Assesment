@@ -9,10 +9,10 @@ import org.hibernate.annotations.Immutable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@Data
 @Entity
 @Immutable // Proteção contra o Boss (DBA): Garante que o JPA nunca tentará atualizar essa view
-@Table(name = "mv_painel_tatico_missao", schema = "operacoes")
-@Data
+@Table(name = "vw_painel_tatico_missao", schema = "operacoes")
 public class PainelTaticoMissao {
 
     @Id

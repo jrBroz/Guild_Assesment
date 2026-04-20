@@ -13,18 +13,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.Table;
 import lombok.Data;
 
-import lombok.NoArgsConstructor;
-
-
-// Validação de Restrição
 @Data
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-
+@Table(name = "aventureiro", schema = "operacoes")
 public class Aventureiro{
     
   

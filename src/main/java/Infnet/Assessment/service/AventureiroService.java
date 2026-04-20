@@ -116,7 +116,7 @@ public class AventureiroService {
         novoCompanheiro.setId(aventureiro.getId()); 
         novoCompanheiro.setNome(dto.nome().trim());
         novoCompanheiro.setEspecie(dto.especie()); 
-        novoCompanheiro.setNivelLealdade(dto.lealdade()); 
+        novoCompanheiro.setIndice_lealdade(dto.lealdade()); 
 
         companheiroRepo.save(novoCompanheiro);
         return obterPerfilCompleto(idAventureiro);

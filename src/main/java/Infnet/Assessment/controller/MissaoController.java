@@ -25,43 +25,43 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor 
 public class MissaoController {
 
-    private final MissaoService service;
+    // private final MissaoService service;
 
-    @PostMapping
-    public ResponseEntity<MissaoResponseDTO> criar(@Valid @RequestBody MissaoRequestDTO dto) {
-        Missao missao = service.criar(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(converterParaDTO(missao));
-    }
+    // @PostMapping
+    // public ResponseEntity<MissaoResponseDTO> criar(@Valid @RequestBody MissaoRequestDTO dto) {
+    //     Missao missao = service.criar(dto);
+    //     return ResponseEntity.status(HttpStatus.CREATED).body(converterParaDTO(missao));
+    // }
 
-    @GetMapping
-    public ResponseEntity<Page<MissaoResponseDTO>> listar(
-        @RequestParam(required = false) StatusMissao status,
-        @RequestParam(required = false) NivelPerigoMissao nivel,
-        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
-        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fim,
-        Pageable pageable) { 
+    // @GetMapping
+    // public ResponseEntity<Page<MissaoResponseDTO>> listar(
+    //     @RequestParam(required = false) StatusMissao status,
+    //     @RequestParam(required = false) NivelPerigoMissao nivel,
+    //     @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
+    //     @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fim,
+    //     Pageable pageable) { 
         
-        Page<Missao> pagina = service.listarComFiltros(status, nivel, inicio, fim, pageable);
-        return ResponseEntity.ok(pagina.map(this::converterParaDTO));
-    }
+    //     Page<Missao> pagina = service.listarComFiltros(status, nivel, inicio, fim, pageable);
+    //     return ResponseEntity.ok(pagina.map(this::converterParaDTO));
+    // }
 
-    private MissaoResponseDTO converterParaDTO(Missao m) {
-        List<AventureiroResumido> participantesDTO = m.getParticipacoes().stream()
-            .map(p -> new AventureiroResumido(
-                p.getAventureiro().getId(),         
-                p.getAventureiro().getNome(),       
-                p.getAventureiro().getClasse(),     
-                p.getAventureiro().getNivel(),       
-                p.getAventureiro().getAtivo()       
-            ))
-            .toList();
+    // private MissaoResponseDTO converterParaDTO(Missao m) {
+    //     List<AventureiroResumido> participantesDTO = m.getParticipacoes().stream()
+    //         .map(p -> new AventureiroResumido(
+    //             p.getAventureiro().getId(),         
+    //             p.getAventureiro().getNome(),       
+    //             p.getAventureiro().getClasse(),     
+    //             p.getAventureiro().getNivel(),       
+    //             p.getAventureiro().getAtivo()       
+    //         ))
+    //         .toList();
 
-        return new MissaoResponseDTO(
-            m.getId(),
-            m.getTitulo(),
-            m.getOrganizacao().getNome(),
-            m.getStatus(),
-            participantesDTO
-        );
-    }
+    //     return new MissaoResponseDTO(
+    //         m.getId(),
+    //         m.getTitulo(),
+    //         m.getOrganizacao().getNome(),
+    //         m.getStatus(),
+    //         participantesDTO
+    //     );
+    // }
 }

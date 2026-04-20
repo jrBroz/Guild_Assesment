@@ -26,5 +26,5 @@ public class Companheiro {
 
     @Column(nullable = false)
 
-    private Integer nivelLealdade;
+    private Integer indice_lealdade;
 }

@@ -1,6 +1,5 @@
 package Infnet.Assessment.model;
 import java.time.LocalDateTime;
-import java.util.List;
 import Infnet.Assessment.enums.NivelPerigoMissao;
 import Infnet.Assessment.enums.StatusMissao;
 import jakarta.persistence.Column;
@@ -12,8 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
@@ -36,9 +34,6 @@ public class Missao{
     @Column(nullable = false, length = 150)
     private String titulo;
 
-     @Column(nullable = false, length = 150)
-    private String descricao;
-
     @Enumerated(EnumType.STRING)
     @Column(name="nivel_perigo",nullable = false)
     private NivelPerigoMissao nivelPerigoMissao;
@@ -56,16 +51,6 @@ public class Missao{
     @Column(name = "data_fim")
     private LocalDateTime dataFim;
 
-    // --- ADICIONADO: Lista de participantes ---
-    // Uma missão tem muitos aventureiros e um aventureiro pode estar em várias missões
-    @ManyToMany
-    @JoinTable(
-        name = "missao_participantes",
-        joinColumns = @JoinColumn(name = "missao_id"),
-        inverseJoinColumns = @JoinColumn(name = "aventureiro_id")
-    )
-
-    private List<ParticipacaoEmMissao> participacoes;
 
     @PrePersist
     protected void onCreate() {
@@ -78,7 +63,6 @@ public class Missao{
         }
     }
 
-
     @PreUpdate
     protected void onUpdate() {
         // Se o status mudar para CONCLUIDA ou CANCELADA, podemos carimbar a data de término
@@ -88,7 +72,5 @@ public class Missao{
         }
     }
 
-    public List<ParticipacaoEmMissao> getParticipacoes() {
-        return participacoes;
-    }
+
 }

@@ -19,10 +19,6 @@ public record MissaoRequestDTO(
     @NotNull(message = "O nível de perigo é obrigatório.")
      NivelPerigoMissao nivelPerigo,
 
-    @NotBlank(message = "A descrição é obrigatória")
-    @Size(max = 500)
-    String descricao, 
-
     @NotNull(message = "O status inicial é obrigatório.")
     StatusMissao status,
 
